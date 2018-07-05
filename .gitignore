@@ -1,4 +1,3 @@
-
 .project
 .classpath
 .idea
@@ -9,7 +8,13 @@ target
 work
 terraform.tfvars
 .terraform
-.aws
+.aws/*
+credentials
 terraform.tfstate.backup
 terraform.tfstate
 todo.txt
+ubuntu-xenial-16.04-cloudimg-console.log
+apply.me
+.terraform.tfstate.lock.info
+.vagrant/
+code_ws_devops-box.code-workspace
