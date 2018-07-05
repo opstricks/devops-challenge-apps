@@ -1,0 +1,28 @@
+region = "us-east-1"
+
+project = "Stone"
+
+cluster_name = "terraform-eks"
+
+kubeconfig_dir = "/home/peterson/.kube"
+
+github_repo = "https://github.com/petersonwsantos/eks"
+
+github_tag = "0.0.1"
+
+admin_user = "admin"
+
+admin_password = "my_password"
+
+jx_provider = "eks"
+
+git_organization = "opstricks"
+
+git_provider_url = "https://github.com"
+
+git_owner = "opstricks"
+
+git_user = "opstricks"
+
+# https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook
+git_token = "47c0a8d1c17ffdfdfdsfdfsDSFdfdfdfd8a993f"

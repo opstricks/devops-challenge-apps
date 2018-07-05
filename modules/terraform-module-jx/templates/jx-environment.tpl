@@ -1,0 +1,1 @@
+jx create env --name=${environment} --label=${environment} --namespace=jx-${environment} --git-username=${git_user} --git-provider-url=${git_provider_url} --git-api-token=${git_token} --promotion=${environment_promotion}

@@ -10,6 +10,3 @@ work
 terraform.tfvars
 .terraform
 .aws
-terraform.tfstate.backup
-terraform.tfstate
-todo.txt

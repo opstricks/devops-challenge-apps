@@ -1,0 +1,1 @@
+jx create jenkins token  -p "${admin_password}" ${admin_user} ; jx create git token --name GitHub -t ${git_token} ${git_user}

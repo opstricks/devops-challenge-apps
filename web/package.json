@@ -1,8 +1,10 @@
 {
-  "name": "devops_web",
-  "version": "0.0.0",
+  "name": "REPLACE_ME",
+  "version": "1.0.0",
+  "description": "Simple App that listens on localhost:5000",
   "private": true,
   "scripts": {
+    "test": "echo \"no test specified\" && exit 0",
     "start": "node ./bin/www"
   },
   "dependencies": {
