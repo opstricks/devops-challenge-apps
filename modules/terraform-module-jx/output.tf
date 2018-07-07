@@ -70,19 +70,11 @@ output "token" {
   value       = "${data.template_file.jx_token.rendered}"
 }
 
-data "template_file" "jx_import_app" {
-  template = "${file("${path.module}/templates/jx-import-app.tpl")}"
-
-  vars {
-    git_user         = "${var.git_user}"
-    git_token        = "${var.git_token}"
-    git_provider_url = "${var.git_provider_url}"
-    git_organization = "${var.git_organization}"
-    git_owner        = "${var.git_owner}"
-  }
+locals {
+  git_token = "${var.git_token}"
 }
 
-output "import_app" {
-  description = "Script for create jenkins-x environment."
-  value       = "${data.template_file.jx_import_app.rendered}"
+output "this_git_token" {
+  description = "help dependency between modules"
+  value       = "${local.git_token}"
 }

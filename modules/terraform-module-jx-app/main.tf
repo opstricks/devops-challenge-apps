@@ -1,13 +1,7 @@
-resource "null_resource" "kubernetes_check" {
-  provisioner "local-exec" {
-    command = "export KUBECONFIG=${var.kubeconfig_dir}/kubeconfig"
-  }
+# resource "null_resource" "jx_check" {
+#   # provisioner "local-exec" {  #   command = "export KUBECONFIG=${var.kubeconfig_dir}/kubeconfig"  # }
+#   provisioner "local-exec" {
+#     command = "${data.template_file.jenkins_x_check.rendered}"
+#   }
+# }
 
-  provisioner "local-exec" {
-    command = "kubectl config set-context `kubectl config current-context` --namespace jx"
-  }
-
-  # provisioner "local-exec" {
-  #   command = "${path.module}/scripts/waiter_check_jenkins-x.sh"
-  # }
-}

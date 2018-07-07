@@ -18,65 +18,61 @@ module "vpc" {
 }
 
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "1.1.0"
+  source = "modules/terraform-aws-eks"
 
   cluster_name              = "${var.cluster_name}"
   subnets                   = "${module.vpc.public_subnets}"
   vpc_id                    = "${module.vpc.vpc_id}"
   worker_groups             = "${local.worker_groups}"
   cluster_version           = "1.10"
-  configure_kubectl_session = "true"
+  configure_kubectl_session = true
   config_output_path        = "${var.kubeconfig_dir}"
   tags                      = "${local.tags}"
-}
-
-module "eks_after_installation" {
-  source                 = "modules/terraform-aws-eks-after-installation"
-  this_module_depends_on = ["${module.eks.cluster_endpoint}"]
 }
 
 module "jx" {
   source = "modules/terraform-module-jx"
 
-  git_token              = "${var.git_token}"
-  admin_user             = "${var.admin_user}"
-  admin_password         = "${var.admin_password}"
-  jxprovider             = "${var.jx_provider}"
-  git_provider_url       = "${var.git_provider_url}"
-  git_owner              = "${var.git_owner}"
-  git_user               = "${var.git_user}"
-  git_organization       = "${var.git_organization}"
-  kubeconfig_dir         = "${var.kubeconfig_dir}"
-  this_module_depends_on = ["${module.eks_after_installation.this_module}", "${module.eks.cluster_id}"]
+  git_token            = "${var.git_token}"
+  admin_user           = "${var.admin_user}"
+  admin_password       = "${var.admin_password}"
+  jxprovider           = "${var.jx_provider}"
+  git_provider_url     = "${var.git_provider_url}"
+  git_owner            = "${var.git_owner}"
+  git_user             = "${var.git_user}"
+  git_email            = "${var.git_email}"
+  git_organization     = "${var.git_organization}"
+  kubeconfig_dir       = "${var.kubeconfig_dir}"
+  cluster_endpoint     = "${module.eks.cluster_endpoint}"
+  worker_iam_role_name = "${module.eks.worker_iam_role_name}"
 }
 
 module "jx_app_api" {
   source = "modules/terraform-module-jx-app"
 
-  git_token              = "${var.git_token}"
-  git_provider_url       = "${var.git_provider_url}"
-  git_owner              = "${var.git_owner}"
-  git_user               = "${var.git_user}"
-  git_organization       = "${var.git_organization}"
-  kubeconfig_dir         = "${var.kubeconfig_dir}"
-  worker_iam_role_name   = "${module.eks.worker_iam_role_name}"
-  this_module_depends_on = ["${module.eks_after_installation.this_module}", "${module.jx.this_module}"]
-  app_name               = "api"
+  app_name             = "api"
+  git_token            = "${module.jx.this_git_token}"
+  git_provider_url     = "${var.git_provider_url}"
+  git_owner            = "${var.git_owner}"
+  git_user             = "${var.git_user}"
+  git_organization     = "${var.git_organization}"
+  kubeconfig_dir       = "${var.kubeconfig_dir}"
+  worker_iam_role_name = "${module.eks.worker_iam_role_name}"
+  workers_asg_arns     = "${module.eks.workers_asg_arns}"
 }
 
 module "jx_app_web" {
   source = "modules/terraform-module-jx-app"
 
-  git_token              = "${var.git_token}"
-  git_provider_url       = "https://github.com"
-  git_owner              = "${var.git_owner}"
-  git_user               = "${var.git_user}"
-  git_organization       = "${var.git_organization}"
-  kubeconfig_dir         = "${var.kubeconfig_dir}"
-  worker_iam_role_name   = "${module.eks.worker_iam_role_name}"
-  this_module_depends_on = ["${module.eks_after_installation.this_module}", "${module.jx.this_module}"]
-  app_name               = "web"
+  app_name             = "web"
+  git_token            = "${module.jx.this_git_token}"
+  git_provider_url     = "${var.git_provider_url}"
+  git_owner            = "${var.git_owner}"
+  git_user             = "${var.git_user}"
+  git_organization     = "${var.git_organization}"
+  kubeconfig_dir       = "${var.kubeconfig_dir}"
+  worker_iam_role_name = "${module.eks.worker_iam_role_name}"
+  workers_asg_arns     = "${module.eks.workers_asg_arns}"
 }
 
 #

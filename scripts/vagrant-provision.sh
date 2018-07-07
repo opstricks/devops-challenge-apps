@@ -104,16 +104,17 @@ if [[ "$install_google_cloud_cli" == "yes"  ]]; then
 fi
 
 #terraform
-if [[ "" != ""  ]]; then
+if [[ "install_terraform" != ""  ]]; then
     if [[ $install_terraform == "latest"  ]]; then
         terraform_version="$(curl -sS https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r .tag_name | sed -e 's/^v//')"
     else
         terraform_version=$install_terraform
     fi
     wget "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -O terraform.zip
-    unzip -o terraform.zip -d /usr/local/bin
+    sudo unzip -o terraform.zip -d /usr/local/bin
     rm terraform.zip
-    apt-get -y install graphviz # terrafrom graph export
+    # terrafrom graph export
+    sudo apt-get -y install graphviz
 fi
 
 #jenkins-x
@@ -165,6 +166,7 @@ fi
 ls /home/vagrant/.oh-my-zsh  && rm -rf /home/vagrant/.oh-my-zsh
 ls /home/vagrant/.zshrc      && rm -f /home/vagrant/.zshrc
 
+mkdir /home/vagrant/.oh-my-zsh
 git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
 cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
 chown vagrant:vagrant /home/vagrant/.oh-my-zsh -R

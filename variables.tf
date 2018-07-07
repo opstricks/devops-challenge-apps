@@ -50,6 +50,10 @@ variable "git_user" {
   type = "string"
 }
 
+variable "git_email" {
+  type = "string"
+}
+
 variable "git_token" {
   type = "string"
 }

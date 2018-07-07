@@ -14,3 +14,18 @@ data "template_file" "jx_import_app" {
 data "aws_ecr_repository" "registry" {
   name = "${var.git_organization}/${var.app_name}"
 }
+
+# data "template_file" "jenkins_x_check" {
+#   template = <<EOF
+# kubectl config set-context aws --namespace jx
+# while  ! jx status  &> /dev/null ; do
+# sleep 30
+# done
+# EOF
+
+
+#   vars {
+#     kubeconfig_dir = "${var.kubeconfig_dir}"
+#   }
+# }
+

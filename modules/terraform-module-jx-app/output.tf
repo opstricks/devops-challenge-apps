@@ -1,8 +1,3 @@
-output "this_module" {
-  description = "helps dependency between modules"
-  value       = "jenkins-x-app"
-}
-
 output "import_app" {
   description = "Script for create jenkins-x environment."
   value       = "${data.template_file.jx_import_app.rendered}"

@@ -138,12 +138,13 @@ credentials
 # Terraform
 #
 ################################################
-terraform.tfstate.backup
-terraform.tfstate
-.terraform.tfstate.lock.info
-terraform.tfvars
 .terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
 apply.me
+
 
 ################################################
 # Vagrant

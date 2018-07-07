@@ -1,5 +1,5 @@
 #/bin/sh
-
+kubectl config set-context aws --namespace jx
 if `helm list jxing      > /dev/null`; then echo -e "\033[1;36m"; helm delete jxing     --purge; fi
 if `helm list jenkins-x  > /dev/null`; then echo -e "\033[1;36m"; helm delete jenkins-x --purge; fi
 if `helm list            > /dev/null`; then echo -e "\033[1;36m"; helm reset            --force; fi

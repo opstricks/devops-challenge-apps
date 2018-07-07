@@ -4,7 +4,9 @@ project = "Stone"
 
 cluster_name = "terraform-eks"
 
-kubeconfig_dir = "/home/peterson/.kube"
+cluster_context_name = "aws"
+
+kubeconfig_dir = "/home/vagrant/.kube"
 
 github_repo = "https://github.com/petersonwsantos/eks"
 
