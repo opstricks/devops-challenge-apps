@@ -1,6 +1,6 @@
 # DevOps Challenge
 
-Status: under development
+**Status:** under development
 
 Todo:
 - [x] VPC
