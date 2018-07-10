@@ -33,7 +33,7 @@ resource "null_resource" "jx_install" {
     command = "${file("${path.module}/scripts/jx-delete.sh")}"
   }
 
-  depends_on = ["null_resource.kubernetes_check", "null_resource.jx_prep_install"]
+  depends_on = ["null_resource.kubernetes_check", "null_resource.jx_prep_install", "null_resource.depends_module_eks"]
 }
 
 resource "null_resource" "jx_check" {
