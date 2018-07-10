@@ -14,6 +14,7 @@ Todo:
 - [x] Skafold config API / WEB
 - [x] RDS
 - [ ] RDS Helm variable(API)
+- [ ] new Readme.md
 
 
 ##### Run Vagrant devops-box
