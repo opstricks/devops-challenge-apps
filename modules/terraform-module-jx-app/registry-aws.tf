@@ -1,8 +1,3 @@
-resource "aws_iam_role_policy_attachment" "workers_AmazonEC2ContainerRegistryFullAccess" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
-  role       = "${var.worker_iam_role_name}"
-}
-
 resource "aws_ecr_repository" "registry" {
   name = "${var.git_organization}/${var.app_name}"
 }
