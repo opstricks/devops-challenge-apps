@@ -14,7 +14,7 @@ github_tag = "0.0.1"
 
 admin_user = "admin"
 
-admin_password = "my_password"
+admin_password = "1q2w3e4a"
 
 jx_provider = "eks"
 
@@ -26,5 +26,7 @@ git_owner = "opstricks"
 
 git_user = "opstricks"
 
+git_email = "email@gmail.com"
+
 # https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook
-git_token = "47c0a8d1c17ffdfdfdsfdfsDSFdfdfdfd8a993f"
+git_token = "2cc9233623dffd56tdrasgadfgasfc19636fd428c727"

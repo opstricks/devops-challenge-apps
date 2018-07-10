@@ -1,52 +1,82 @@
 # DevOps Challenge
 
-This repo contains code for a multi-tier application.
+Status: under development
 
-The application overview is as follows: 
+Todo:
+- [x] VPC
+- [x] EKS Module
+- [x] EKS Storage
+- [x] EKS Dashboard / EKS Heapster
+- [x] ECR - Container Registry
+- [x] Jenkins-x Module
+- [x] Jenkins-x Apps Module
+- [x] Heml Charts    API / WEB
+- [x] Skafold config API / WEB
+- [x] RDS
+- [ ] RDS Helm variable(API)
+
+
+##### Run Vagrant devops-box
+
+```bash
+
+$ vagrant up && vagrant ssh
 ```
-                    +------------+                         +------------+
-                <=> | (web tier) | <=>                 <=> | (api tier) | <=>
-(load balancer) <=> | (web tier) | <=> (load balancer) <=> | (api tier) | <=> (db)
-                <=> | (web tier) | <=>                 <=> | (api tier) | <=>
-                    +------------+                         +------------+
+
+##### Configure AWS cli
+
+```bash
+$ aws configure
+AWS Access Key ID [None]: AKIAJJ.........UWDQ
+AWS Secret Access Key [None]: 8cwF+TY7M..............vuyox7kU
+Default region name [None]: us-east-1
+Default output format [None]: json
 ```
 
-The folders `web` and `api` respectively describe how to install and run each app.
+##### Create Terraform
 
-## Deliverables
+```bash
 
-This challenge is divided in multiples parts(deliverables). You don't need to finish all. Show us what do you finished.
+$ cd /vagrant
 
-### Deliverable 1 - Docker
+# Download and install modules for the configuration
+$ terraform get -update && terraform init
 
-1. Create web `Dockerfile`
-1. Create api `Dockerfile`
-1. Define a `docker-compose.yml` in the project root that run the `web` and `api` with a simple `docker-compose up`
-1. Publish the image in a public registry with the command `docker-compose push web api`
+# Create infrastructure
+$ terraform plan -out=apply.me  &&  terraform apply apply.me
 
-### Deliverable 2 - api and database tiers terraform script
+# provisional database
+$ kubectl apply -f db_provisorio/dev/
 
-1. Create a **PostgreSQL** database with user, password and database.
-1. Create a Virtual Machine, or other solution, to run [api application](./api)
-1. Create a Load Balancer pointing to **api application**
+```
 
-### Deliverable 3 - web tier terraform script
+##### Prepare GitOps
 
-1. Create a Virtual Machine, or other solution, to run **web application**
-1. Create the **web docker container** pointing to **api docker container**
-1. Create a Load Balancer pointing to **web application**
+```bash
+# Configure token
+bash -c "$(terraform output -module=jx token)"
 
-### PLUS
+# create environments
+$ bash -c "$(terraform output -module=jx env_dev)"
+$ bash -c "$(terraform output -module=jx env_staging)"
+$ bash -c "$(terraform output -module=jx env_production)"
 
-1. Use a container orchestrator to run the applications
-1. Solution must handle instance container failures
-1. WEB and API tiers must have multiple instances
-1. Deploy of new version without downtime
-1. WEB should access API using a Internal Load Balancer, but keep the API public
+# Import applications
+$ bash -c "$(terraform output -module=jx_app_api import_app)"
+$ bash -c "$(terraform output -module=jx_app_web import_app)"
+```
 
-## Observation
+##### Delete infra
 
-Please specify all steps needed to execute and see the application working.
 
-The scripts should be delivered as a public repo on Github or a pull-request made against the <https://github.com/robsonpeixoto/devops-challenge-apps> repo
+```bash
 
+# Step 1
+$ terraform destroy -target=null_resource.jx_install --force
+
+# Step 2
+Delete all ELBs
+
+# Step 3
+$ terraform destroy --force
+```

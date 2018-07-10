@@ -75,57 +75,55 @@ module "jx_app_web" {
   workers_asg_arns     = "${module.eks.workers_asg_arns}"
 }
 
-#
-# module "sg_db" {
-#   source = "terraform-aws-modules/security-group/aws"
-#
-#   name        = "db-service"
-#   description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
-#   vpc_id      = "${module.vpc.vpc_id}"
-#
-#   ingress_cidr_blocks = ["10.10.0.0/16"]
-#
-#   ingress_with_cidr_blocks = [
-#     {
-#       rule        = "postgresql-tcp"
-#       cidr_blocks = "0.0.0.0/0"
-#     },
-#   ]
-#
-#   tags = "${local.tags}"
-# }
-#
-# module "db" {
-#   source  = "terraform-aws-modules/rds/aws"
-#   version = "1.19.0"
-#
-#   identifier = "pgdb"
-#
-#   engine            = "postgres"
-#   engine_version    = "9.6.3"
-#   instance_class    = "db.t2.micro"
-#   allocated_storage = 5
-#   storage_encrypted = false
-#
-#   name     = "pgdb"
-#   username = "stone"
-#
-#   password               = "stone123"
-#   port                   = "5432"
-#   vpc_security_group_ids = ["${module.sg_db.this_security_group_id}"]
-#
-#   maintenance_window = "Mon:00:00-Mon:01:00"
-#   backup_window      = "02:00-00:00"
-#
-#   backup_retention_period = 0
-#   tags                    = "${local.tags}"
-#
-#   subnet_ids = ["${module.vpc.public_subnets}"]
-#
-#   family = "postgres9.6"
-#
-#   major_engine_version = "9.6"
-#
-#   final_snapshot_identifier = "pgdb"
-# }
+module "sg_db" {
+  source = "terraform-aws-modules/security-group/aws"
 
+  name        = "db-service"
+  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  vpc_id      = "${module.vpc.vpc_id}"
+
+  ingress_cidr_blocks = ["10.0.0.0/16"]
+
+  ingress_with_cidr_blocks = [
+    {
+      rule        = "postgresql-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+
+  tags = "${local.tags}"
+}
+
+module "db" {
+  source  = "terraform-aws-modules/rds/aws"
+  version = "1.19.0"
+
+  identifier = "pgdb"
+
+  engine            = "postgres"
+  engine_version    = "9.6.3"
+  instance_class    = "db.t2.micro"
+  allocated_storage = 5
+  storage_encrypted = false
+
+  name     = "pgdb"
+  username = "stone"
+
+  password               = "stone123"
+  port                   = "5432"
+  vpc_security_group_ids = ["${module.sg_db.this_security_group_id}"]
+
+  maintenance_window = "Mon:00:00-Mon:01:00"
+  backup_window      = "02:00-00:00"
+
+  backup_retention_period = 0
+  tags                    = "${local.tags}"
+
+  subnet_ids = ["${module.vpc.public_subnets}"]
+
+  family = "postgres9.6"
+
+  major_engine_version = "9.6"
+
+  final_snapshot_identifier = "pgdb"
+}
