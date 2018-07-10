@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node
 
 WORKDIR /app
 
@@ -14,10 +14,3 @@ ENV API_HOST=http://api:6000
 EXPOSE 5000
 
 CMD [ "npm", "start" ]
-
-# FROM node:9-slim
-# ENV PORT 8080
-# EXPOSE 8080
-# WORKDIR /usr/src/app
-# COPY . .
-# CMD ["npm", "start"]
