@@ -30,6 +30,7 @@ pipeline {
            container('nodejs') {
              sh "make preview"
              sh "jx preview --app $APP_NAME --dir ../.."
+             sh "kubectl get configmap postgres -o yaml  --namespace jx  --export=true | kubectl apply --namespace $PREVIEW_NAMESPACE -f - "
            }
           }
         }
