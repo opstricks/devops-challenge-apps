@@ -13,7 +13,7 @@ Todo:
 - [x] Heml Charts    API / WEB
 - [x] Skafold config API / WEB
 - [x] RDS
-- [ ] RDS Helm variable(API)
+- [x] RDS Helm variable(API)
 - [ ] new Readme.md
 
 
