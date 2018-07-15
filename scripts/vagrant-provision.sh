@@ -15,7 +15,7 @@ install_docker="latest"
 
 # Kubernetets tools
 install_kubectl="latest"
-install_helm="latest"
+install_helm="v2.10.0-rc.1"
 install_kubens_keubectx="latest"
 install_skaffold="latest"
 install_kops="latest"
@@ -23,7 +23,7 @@ install_heptio_authenticator="latest" # for eks authentication
 
 # automation and dev tools
 install_terraform="latest"
-install_jenkins_x="latest"
+install_jenkins_x="v1.3.89"
 install_hub="yes"
 gen_ssh_keys="yes"
 
@@ -65,10 +65,16 @@ if [[ "install_heptio_authenticator" != ""  ]]; then
 fi
 
 # # Hub
-# if [[ $install_hub == "yes" ]]; then
-#     add-apt-repository ppa:cpick/hub -y
-#     apt-get install git-core hub -y
-# fi
+if [[ $install_hub == "yes" ]]; then
+    #hub_ver=$(curl -sS https://api.github.com/repos/github/hub/releases/latest | jq -r .tag_name | sed -e 's/^v//')
+    hub_ver=2.5.0
+    wget -O hub.tgz https://github.com/github/hub/releases/download/v${hub_ver}/hub-linux-amd64-${hub_ver}.tgz
+    tar xvzf hub.tgz
+    sudo bash ./hub-linux-amd64-2.5.0/install
+    rm -rfv hub-linux-amd64-2.5.0 hub.tgz
+fi
+
+
 
 # docker
 if [[ "$install_docker" != ""  ]]; then
@@ -87,10 +93,12 @@ if [[ "$install_kubectl" == "latest"  ]]; then
 fi
 
 # Helm
-if [[ "$install_helm" == "latest" ]]; then
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh
-    chmod 700 get_helm.sh
-    ./get_helm.sh
+if [[ "$install_helm" != "" ]]; then
+    wget https://storage.googleapis.com/kubernetes-helm/helm-${install_helm}-linux-amd64.tar.gz
+    tar xvzf helm-${install_helm}-linux-amd64.tar.gz
+    chmod +x linux-amd64/helm
+    sudo cp linux-amd64/helm /usr/local/bin
+    rm helm-* linux-amd64 -rfv
 fi
 
 
