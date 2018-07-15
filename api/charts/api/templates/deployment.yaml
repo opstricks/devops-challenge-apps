@@ -24,9 +24,12 @@ spec:
         ports:
         - containerPort: {{ .Values.service.internalPort }}
         env:
-          - name: API_DB
-            value: "postgres://stone:stone@db/stone"
-          - name: API_PORT
+          - name: DB
+            valueFrom:
+              configMapKeyRef:
+                name: postgres
+                key: connection
+          - name: PORT
             value: "6000"
         livenessProbe:
           httpGet:
