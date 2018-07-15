@@ -1,22 +1,35 @@
-#/bin/sh
 kubectl config set-context aws --namespace jx
-if `helm list &>  /dev/null`; then
-    if `helm list jxing      &>  /dev/null`; then helm delete jxing     --purge; fi
-    if `helm list jenkins-x  &>  /dev/null`; then helm delete jenkins-x --purge; fi
-    helm reset --force
-fi
+
+if `helm list jxing      &>  /dev/null`; then helm delete jxing     --purge; fi
+
+if `helm list jenkins-x  &>  /dev/null`; then helm delete jenkins-x --purge; fi
+
+if `helm list            &>  /dev/null`; then helm reset --force           ; fi
+
 if `ls ~/.jx   &>  /dev/null` ; then rm ~/.jx   -rf && echo -e "\033[1;36m Deleted ~/.jx  "; fi
+
 if `ls ~/.helm &>  /dev/null` ; then rm ~/.helm -rf && echo -e "\033[1;36m Deleted ~/.Helm"; fi
+
 if `kubectl get svc api --namespace jx-development  &>  /dev/null`; then  kubectl delete svc api --namespace jx-development ; fi
+
 if `kubectl get svc api --namespace jx-staging      &>  /dev/null`; then  kubectl delete svc api --namespace jx-staging     ; fi
+
 if `kubectl get svc api --namespace jx-production   &>  /dev/null`; then  kubectl delete svc api --namespace jx-production  ; fi
+
 if `kubectl get svc web --namespace jx-development  &>  /dev/null`; then  kubectl delete svc web --namespace jx-development ; fi
+
 if `kubectl get svc web --namespace jx-staging      &>  /dev/null`; then  kubectl delete svc web --namespace jx-staging     ; fi
+
 if `kubectl get svc web --namespace jx-production   &>  /dev/null`; then  kubectl delete svc web --namespace jx-production  ; fi
+
 if `kubectl get ns jx-development &> /dev/null`; then  kubectl delete ns jx-development ; fi
+
 if `kubectl get ns jx-staging     &> /dev/null`; then  kubectl delete ns jx-staging     ; fi
+
 if `kubectl get ns jx-production  &> /dev/null`; then  kubectl delete ns jx-production  ; fi
+
 if `kubectl get ns jx             &> /dev/null`; then  kubectl delete ns jx             ; fi
+
 exit_configmap_jenkins_jx_role_binding=$(kubectl get clusterrolebindings | grep ^jenkins-jx-role-binding | awk '{print $1}')
 if [ "$exit_configmap_jenkins_jx_role_binding" != '' ]; then  kubectl delete clusterrolebindings $(kubectl get clusterrolebindings | grep ^jenkins-jx-role-binding | awk '{print $1}') ; fi
 exit_configmap_gc_previews=$(kubectl get clusterrolebindings | grep ^gc-previews | awk '{print $1}')

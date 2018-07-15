@@ -5,4 +5,4 @@ jx import ${app_name} --name='${app_name}' --pack='${app_name}' --git-username=$
 # Build
 jx start pipeline  ${git_organization}/${app_name}/master && jx get build log ${git_organization}/${app_name}/master
 # appplication promote
-jx promote --app='${app_name}' --version='0.0.2' --env='development' --batch-mode=true
+cd ${app_name} && jx promote --app='${app_name}' --version='0.0.2' --env='development' --batch-mode=true && cd ..

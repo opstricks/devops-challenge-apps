@@ -1,5 +1,5 @@
-data "template_file" "jx_install_create" {
-  template = "${file("${path.module}/templates/resource-jx_install-create.tpl")}"
+data "template_file" "jx_installation_create" {
+  template = "${file("${path.module}/templates/resource-jx_installation-create.tpl")}"
 
   vars {
     admin_user       = "${var.admin_user}"
@@ -10,6 +10,10 @@ data "template_file" "jx_install_create" {
     git_user         = "${var.git_user}"
     git_token        = "${var.git_token}"
   }
+}
+
+data "template_file" "jx_installation_delete" {
+  template = "${file("${path.module}/templates/resource-jx_installation-delete.tpl")}"
 }
 
 data "template_file" "kubernetes_check" {

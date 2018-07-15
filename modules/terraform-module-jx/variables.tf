@@ -46,3 +46,5 @@ variable "kubeconfig_dir" {
 variable "cluster_endpoint" {}
 
 variable "worker_iam_role_name" {}
+
+variable "db_connection" {}

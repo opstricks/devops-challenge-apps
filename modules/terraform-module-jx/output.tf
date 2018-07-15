@@ -3,7 +3,7 @@ output "this_module" {
   value       = "jenkins-x"
 }
 
-data "template_file" "jx_environment_create_dev" {
+data "template_file" "jx_environment_create_development" {
   template = "${file("${path.module}/templates/jx-environment.tpl")}"
 
   vars {
@@ -12,12 +12,13 @@ data "template_file" "jx_environment_create_dev" {
     git_token             = "${var.git_token}"
     environment           = "development"
     environment_promotion = "auto"
+    db_connection         = "${var.db_connection}"
   }
 }
 
-output "env_dev" {
+output "env_development" {
   description = "Script for create jenkins-x environment."
-  value       = "${data.template_file.jx_environment_create_dev.rendered}"
+  value       = "${data.template_file.jx_environment_create_development.rendered}"
 }
 
 data "template_file" "jx_environment_create_staging" {
@@ -29,6 +30,7 @@ data "template_file" "jx_environment_create_staging" {
     git_token             = "${var.git_token}"
     environment           = "staging"
     environment_promotion = "manual"
+    db_connection         = "${var.db_connection}"
   }
 }
 
@@ -46,6 +48,7 @@ data "template_file" "jx_environment_create_production" {
     git_token             = "${var.git_token}"
     environment           = "production"
     environment_promotion = "manual"
+    db_connection         = "${var.db_connection}"
   }
 }
 
