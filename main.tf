@@ -45,6 +45,7 @@ module "jx" {
   kubeconfig_dir       = "${var.kubeconfig_dir}"
   cluster_endpoint     = "${module.eks.cluster_endpoint}"
   worker_iam_role_name = "${module.eks.worker_iam_role_name}"
+  db_connection        = "postgres://${module.db.this_db_instance_username}:${module.db.this_db_instance_password}@${module.db.this_db_instance_address}/${module.db.this_db_instance_name}"
 }
 
 module "jx_app_api" {
