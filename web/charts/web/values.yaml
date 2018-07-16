@@ -32,3 +32,6 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 terminationGracePeriodSeconds: 10
+envs:
+  api_port: "http://api.jx-production.svc.cluster.local:6000"
+  web_port: "5000"

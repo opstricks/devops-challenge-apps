@@ -25,9 +25,9 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         env:
           - name: API_HOST
-            value: "http://api.jx-production.svc.cluster.local:6000"
+            value: {{ .Values.envs.api_port | quote }}
           - name: WEB_PORT
-            value: "5000"
+            value: {{ .Values.envs.web_port | quote }}
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}

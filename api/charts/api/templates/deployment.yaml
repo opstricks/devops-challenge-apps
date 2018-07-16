@@ -30,7 +30,7 @@ spec:
                 name: postgres
                 key: connection
           - name: PORT
-            value: "6000"
+            value: {{ .Values.service.internalPort | quote }}
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}
