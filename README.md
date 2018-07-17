@@ -32,7 +32,7 @@ $ aws configure
 
 ```
 
-##### Create Terraform
+##### Run Terraform
 
 ```bash
 
@@ -42,10 +42,10 @@ $ cd /vagrant
 $ terraform get -update && terraform init
 
 # Create infrastructure
-terraform plan -out=apply.me  &&  terraform apply apply.me
+$ terraform plan -out=apply.me  &&  terraform apply apply.me
 ```
 
-##### Prepare envs and import apps
+##### Prepare environments and import applications
 
 ```bash
 # Configure token
@@ -62,32 +62,44 @@ $ bash -c "$(terraform output -module=jx_app_web import_app)"
 ```
 
 
-##### Create new faature
+##### Demo - Creating a New Feature
 
 ```bash
 
-cd web
+
+# STEP 1 XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Clone appp repo
+$ $ git clone https://github.com/xxxxx/web.git
+$ cd web
 
 # create an issue
-jx create issue -t 'feature version'
+$ jx create issue -t 'feature version'
 
 # create new branch for PR
-git checkout -b feature_version
+$ git checkout -b feature_version
 
-# code feature
-vi routes/index.js
+# code a feature
+$ vi routes/index.js
 
 # push file and connect commit with issue #1
-git add routes/index.js
-git commit -m 'add feature ver -  fixes #1'
-git push origin feature_version
+$ git add routes/index.js
+$ git commit -m 'add feature ver -  fixes #1'
+$ git push origin feature_version
 
-# Create PR
-hub pull-request
+# Create PR with hub or manually in Github page
+$ hub pull-request
 
-# Automatically create pipeline for this PR and preview environment
+# STEP 2 XXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Product Owner aprove PR or no
+Automatically is created a pipeline for this PR and preview environment
+
+Product Owner aprove PR or no
+
+If Yes -> create new release will create
+
+If no  -> finish process
+
 ```
 
 ##### Delete infra
