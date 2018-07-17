@@ -67,7 +67,7 @@ $ bash -c "$(terraform output -module=jx_app_web import_app)"
 ```bash
 
 
-# STEP 1 XXXXXXXXXXXXXXXXXXXXXXXXXX
+# STEP 1 XXXXXXXXXXXXXXXXXXXXXXXXXX  DEVELOPER
 
 # Clone appp repo
 $ $ git clone https://github.com/xxxxx/web.git
@@ -90,7 +90,7 @@ $ git push origin feature_version
 # Create PR with hub or manually in Github page
 $ hub pull-request
 
-# STEP 2 XXXXXXXXXXXXXXXXXXXXXXXXXX
+# STEP 2 XXXXXXXXXXXXXXXXXXXXXXXXXX PRODUCT OWNER (or similar)
 
 Automatically is created a pipeline for this PR and preview environment
 
