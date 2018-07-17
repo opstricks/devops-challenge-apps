@@ -25,9 +25,15 @@ spec:
         - containerPort: {{ .Values.service.internalPort }}
         env:
           - name: API_HOST
+<<<<<<< HEAD
+            value: {{ .Values.webApp.apiPort | quote }}
+          - name: WEB_PORT
+            value: {{ .Values.webApp.webPort | quote }}
+=======
             value: {{ .Values.envs.api_port | quote }}
           - name: WEB_PORT
             value: {{ .Values.envs.web_port | quote }}
+>>>>>>> 62d9d6a802b1f346fe6191c4d32523fb2a0de573
         livenessProbe:
           httpGet:
             path: {{ .Values.probePath }}
