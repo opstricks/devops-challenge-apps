@@ -2,31 +2,26 @@ region = "us-east-1"
 
 project = "Stone"
 
+# Be sure to change this bucket name and region to match an S3 Bucket you have already created!
+bucket_backend = "stone-terraform-remote-state-storage-s3"
+
 cluster_name = "terraform-eks"
 
 cluster_context_name = "aws"
 
 kubeconfig_dir = "/home/vagrant/.kube"
 
-github_repo = "https://github.com/petersonwsantos/eks"
-
-github_tag = "0.0.1"
-
-admin_user = "admin"
-
-admin_password = "1q2w3e4a"
-
 jx_provider = "eks"
-
-git_organization = "opstricks"
 
 git_provider_url = "https://github.com"
 
-git_owner = "opstricks"
+admin_user = "admin"
+
+admin_password = "password1234"
 
 git_user = "opstricks"
 
 git_email = "email@gmail.com"
 
 # https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook
-git_token = "2cc9233623dffd56tdrasgadfgasfc19636fd428c727"
+git_token = "e32sd334cv28fgfgfade5fgfgfg04dfgf6c45d2c2a55"
