@@ -39,10 +39,11 @@ $ aws configure
 $ cd /vagrant
 
 # Download and install modules for the configuration
-$ terraform get -update && terraform init
+$ terraform init
 
 # Create infrastructure
-$ terraform plan -out=apply.me  &&  terraform apply apply.me
+$ terraform plan -out=apply.me -lock=false
+$ terraform apply -lock=false apply.me
 ```
 
 ##### Prepare environments and import applications
@@ -100,6 +101,15 @@ If Yes -> new release will be automatically created
 
 If no  -> finish process
 
+# STEP 3 XXXXXXXXXXXXXXXXXXXXXXXXXX DEPLOY RELEASE
+
+# Promote release in Product environment (rolout)
+$ jx promote --app='web' --version='0.0.10' --env='production' --batch-mode=true
+
+# Rollback version
+$ jx promote --app='web' --version='0.0.9' --env='production' --batch-mode=true
+
+
 ```
 
 ##### Delete infra
@@ -109,5 +119,5 @@ If no  -> finish process
 $ terraform destroy -target=null_resource.jx_installation --force
 
 # Step 2
-$ terraform destroy --force
+$ terraform destroy --force -lock=false
 ```
