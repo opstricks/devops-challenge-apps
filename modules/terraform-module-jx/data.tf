@@ -12,9 +12,6 @@ data "template_file" "jx_installation_create" {
   }
 }
 
-data "template_file" "jx_installation_delete" {
-  template = "${file("${path.module}/templates/resource-jx_installation-delete.tpl")}"
-}
 
 data "template_file" "kubernetes_check" {
   template = <<EOF

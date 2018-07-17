@@ -29,8 +29,9 @@ resource "null_resource" "jx_installation" {
 
   # delete jx
   provisioner "local-exec" {
-    when    = "destroy"
-    command = "${data.template_file.jx_installation_delete.rendered}"
+    when        = "destroy"
+    command     = "${file("${path.module}/scripts/jx-delete.sh")}"
+    interpreter = ["/bin/bash", "-c"]
   }
 
   depends_on = ["null_resource.kubernetes_check", "null_resource.jx_prep_installation", "null_resource.depends_module_eks"]
