@@ -96,7 +96,7 @@ Automatically is created a pipeline for this PR and preview environment
 
 Product Owner aprove PR or no
 
-If Yes -> create new release will create
+If Yes -> new release will create
 
 If no  -> finish process
 
