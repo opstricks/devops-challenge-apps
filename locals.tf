@@ -13,8 +13,6 @@ locals {
   )}"
 
   tags = "${map("project", "${var.project}",
-                "k8s_type", "EKS",
-                "github_repo", "${var.github_repo}",
-                "version", "${var.github_tag}",
+                "k8s_type", "EKS"
   )}"
 }
