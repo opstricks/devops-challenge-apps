@@ -2,9 +2,7 @@
 set -e
 set -o pipefail
 
-BIN_DIR="$(cd "$(dirname "$0")" && pwd)/.bin"
-TMP_DIR="$BIN_DIR/tmp"
-
+blue=$'\e[1;34m'
 
 #cloud_providers
 install_awscli="yes"
@@ -19,7 +17,7 @@ install_helm="v2.10.0-rc.1"
 install_kubens_keubectx="latest"
 install_skaffold="latest"
 install_kops="latest"
-install_heptio_authenticator="latest" # for eks authentication
+install_heptio_authenticator="0.3.0" # for eks authentication
 
 # automation and dev tools
 install_terraform="latest"
@@ -59,7 +57,7 @@ fi
 
 if [[ "install_heptio_authenticator" != ""  ]]; then
     heptio_authenticator_version=0.3.0
-    wget https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${heptio_authenticator_version}/heptio-authenticator-aws_${heptio_authenticator_version}_linux_amd64
+    wget -q  https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${heptio_authenticator_version}/heptio-authenticator-aws_${heptio_authenticator_version}_linux_amd64
     chmod +x heptio-authenticator-aws_${heptio_authenticator_version}_linux_amd64
     sudo mv  -fv heptio-authenticator-aws_${heptio_authenticator_version}_linux_amd64 /usr/local/bin/heptio-authenticator-aws
 fi
@@ -68,7 +66,7 @@ fi
 if [[ $install_hub == "yes" ]]; then
     #hub_ver=$(curl -sS https://api.github.com/repos/github/hub/releases/latest | jq -r .tag_name | sed -e 's/^v//')
     hub_ver=2.5.0
-    wget -O hub.tgz https://github.com/github/hub/releases/download/v${hub_ver}/hub-linux-amd64-${hub_ver}.tgz
+    wget -q -O hub.tgz https://github.com/github/hub/releases/download/v${hub_ver}/hub-linux-amd64-${hub_ver}.tgz
     tar xvzf hub.tgz
     sudo bash ./hub-linux-amd64-2.5.0/install
     rm -rfv hub-linux-amd64-2.5.0 hub.tgz
@@ -84,7 +82,7 @@ fi
 
 # kubectl
 if [[ "$install_kubectl" == "latest"  ]]; then
-  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg -o apt-key.gpg
+  curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg -o apt-key.gpg
   apt-key add apt-key.gpg
   #sleep 21
   echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
@@ -94,7 +92,7 @@ fi
 
 # Helm
 if [[ "$install_helm" != "" ]]; then
-    wget https://storage.googleapis.com/kubernetes-helm/helm-${install_helm}-linux-amd64.tar.gz
+    wget -q https://storage.googleapis.com/kubernetes-helm/helm-${install_helm}-linux-amd64.tar.gz
     tar xvzf helm-${install_helm}-linux-amd64.tar.gz
     chmod +x linux-amd64/helm
     sudo cp linux-amd64/helm /usr/local/bin
@@ -105,7 +103,7 @@ fi
 
 # gcloud
 if [[ "$install_google_cloud_cli" == "yes"  ]]; then
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+    curl -sS https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
     echo "deb http://packages.cloud.google.com/apt cloud-sdk-xenial main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
     apt-get update
     apt-get install google-cloud-sdk -y
@@ -118,7 +116,7 @@ if [[ "install_terraform" != ""  ]]; then
     else
         terraform_version=$install_terraform
     fi
-    wget "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -O terraform.zip
+    wget -q  "https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip" -O terraform.zip
     sudo unzip -o terraform.zip -d /usr/local/bin
     rm terraform.zip
     # terrafrom graph export
@@ -132,7 +130,7 @@ if [[ "$install_jenkins_x" != ""  ]]; then
     else
         jenkins_x_version=$install_jenkins_x
     fi
-    curl -L "https://github.com/jenkins-x/jx/releases/download/${jenkins_x_version}/jx-linux-amd64.tar.gz"  | tar xzv
+    curl -sSL "https://github.com/jenkins-x/jx/releases/download/${jenkins_x_version}/jx-linux-amd64.tar.gz"  | tar xzv
     sudo mv  -fv jx /usr/local/bin
 fi
 
@@ -143,7 +141,7 @@ if [[ "$install_kops" != ""  ]]; then
     else
         kops-x_version=$install_kops
     fi
-    wget -O kops https://github.com/kubernetes/kops/releases/download/${kops_version}/kops-linux-amd64
+    wget -q  -O kops https://github.com/kubernetes/kops/releases/download/${kops_version}/kops-linux-amd64
     chmod +x ./kops
     sudo mv  -fv ./kops /usr/local/bin/
 fi
@@ -156,7 +154,7 @@ if [[ "$install_skaffold" != ""  ]]; then
     else
         skaffold_version=$install_skaffold
     fi
-    curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/${skaffold_version}/skaffold-linux-amd64
+    curl -sSo skaffold https://storage.googleapis.com/skaffold/releases/${skaffold_version}/skaffold-linux-amd64
     chmod +x skaffold
     sudo mv  -fv skaffold /usr/local/bin
 fi
@@ -171,11 +169,12 @@ if [[ "$install_kubens_keubectx" != ""  ]]; then
   sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 fi
 
-ls /home/vagrant/.oh-my-zsh  && rm -rf /home/vagrant/.oh-my-zsh
-ls /home/vagrant/.zshrc      && rm -f /home/vagrant/.zshrc
+ls /home/vagrant/.oh-my-zsh &> /dev/null && rm -rf /home/vagrant/.oh-my-zsh
+ls /home/vagrant/.zshrc     &> /dev/null && rm -f /home/vagrant/.zshrc
 
 mkdir /home/vagrant/.oh-my-zsh
 git clone git://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh
-cp /home/vagrant/.oh-my-zsh/templates/zshrc.zsh-template /home/vagrant/.zshrc
+cp /vagrant/scripts/zshrc /home/vagrant/.zshrc -v
 chown vagrant:vagrant /home/vagrant/.oh-my-zsh -R
 chown vagrant:vagrant /home/vagrant/.zshrc
+
