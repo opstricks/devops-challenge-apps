@@ -49,7 +49,7 @@ $ vi terraform.tfvars
 
 ##### Terraform - Create Infrastructure
 
-<img src="img/technogies.png" alt="Jenkins X icon" width="400" height="446"/ />
+<img src="img/technogies.png" alt="Jenkins X icon" />
 
 
 
