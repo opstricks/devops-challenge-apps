@@ -1,7 +1,15 @@
-provider "http" {}
+provider "http" {
+  version = "~> 1.0"
+}
+
+provider "local" {
+  version = "~> 1.1"
+}
 
 provider "aws" {
-  region = "${var.region}"
+  version                = "~> 1.27.0"
+  skip_region_validation = "true"
+  region                 = "${var.region}"
 }
 
 resource "aws_key_pair" "ssh" {

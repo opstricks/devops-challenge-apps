@@ -3,7 +3,11 @@ region = "us-east-1"
 project = "Stone"
 
 # Be sure to change this bucket name and region to match an S3 Bucket you have already created!
-bucket_backend = "stone-terraform-remote-state-storage-s3"
+bucket_backend = "name-of-your-s3-bucket"
+
+key_backend = "terraform.tfstate"
+
+dynamodb_table_backend = "terraform_state_lock_1"
 
 cluster_name = "terraform-eks"
 
@@ -17,11 +21,11 @@ git_provider_url = "https://github.com"
 
 admin_user = "admin"
 
-admin_password = "password1234"
+admin_password = "your-passowrd"
 
-git_user = "opstricks"
+git_user = "your_git_uesername"
 
-git_email = "email@gmail.com"
+git_email = "your_git_emaili@gmail.com"
 
 # https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook
-git_token = "e32sd334cv28fgfgfade5fgfgfg04dfgf6c45d2c2a55"
+git_token = "e32c868df2380923bzxd289383032c2a55"

@@ -1,5 +1,5 @@
 variable "region" {
-  type = "string"
+  default = "us-east-1"
 }
 
 variable "project" {
@@ -7,6 +7,14 @@ variable "project" {
 }
 
 variable "bucket_backend" {
+  type = "string"
+}
+
+variable "key_backend" {
+  type = "string"
+}
+
+variable "dynamodb_table_backend" {
   type = "string"
 }
 
