@@ -15,8 +15,10 @@ Todo:
 - [x] Skafold config API / WEB
 - [x] RDS
 - [x] RDS Helm variable(API)
-- [x] Terraform State S3 and Locking DynamoDB
+- [x] Terraform Remote State S3 and Locking DynamoDB
 - [ ] new Readme.md
+
+
 
 ##### Run Vagrant devops-box
 
@@ -32,30 +34,62 @@ $ aws configure
 
 ```
 
-##### Run Terraform
+##### Configure Terraform variables
 
 ```bash
 
 $ cd /vagrant
 
-# Download and install modules for the configuration
-$ terraform init
+$ cp terraform.tfvars.example terraform.tfvars
 
-# Create infrastructure
-$ terraform plan -out=apply.me -lock=false
-$ terraform apply -lock=false apply.me
+# configure variables
+$ vi terraform.tfvars
+
 ```
 
-##### Prepare environments and import applications
+##### Terraform - Create Infrastructure
+
+<img src="img/technogies.png" alt="Jenkins X icon" />
+
+
+
+```bash
+# Create bucket S3
+$ aws s3api create-bucket \
+  --bucket $(cat terraform.tfvars | grep ^'bucket_backend ' | awk '{print $3}' | sed 's/\"//g') \
+  --region $(cat terraform.tfvars | grep ^'region '         | awk '{print $3}' | sed 's/\"//g')
+
+$ aws s3api put-bucket-versioning \
+  --bucket $(cat terraform.tfvars | grep ^'bucket_backend ' | awk '{print $3}' | sed 's/\"//g')  \
+  --versioning-configuration "Status=Enabled"
+
+# Download modules and initialize S3 backend
+$ terraform init \
+    -backend-config="region=$(cat terraform.tfvars | grep ^'region '        | awk '{print $3}' | sed 's/\"//g')" \
+    -backend-config="bucket=$(cat terraform.tfvars | grep ^'bucket_backend '| awk '{print $3}' | sed 's/\"//g')"  \
+    -backend-config="key=$(cat terraform.tfvars    | grep ^'key_backend '   | awk '{print $3}' | sed 's/\"//g')"
+
+# Create infrastructure
+$ terraform plan -out=apply.me && terraform apply apply.me
+```
+
+##### Create Environments
 
 ```bash
 # Configure token
 $ bash -c "$(terraform output -module=jx token)"
 
+# Open  http://your_jenkins_url/configure and
+# configure the field "Jenkins URL" with "http://your_jenkins_url"
+
 # create environments
-$ bash -c "$(terraform output -module=jx env_development)"
 $ bash -c "$(terraform output -module=jx env_staging)"
 $ bash -c "$(terraform output -module=jx env_production)"
+```
+
+##### Import Applications
+
+```bash
 
 # Import applications
 $ bash -c "$(terraform output -module=jx_app_api import_app)"
@@ -63,27 +97,33 @@ $ bash -c "$(terraform output -module=jx_app_web import_app)"
 ```
 
 
-##### Demo - Creating a New Feature
+##### Jenkins-x Flow
+
+
+<img src="img/flow.png" alt="Jenkins X icon" />
+
+
+
+##### Demo - Creating a new feature
 
 ```bash
 
 
-# STEP 1 XXXXXXXXXXXXXXXXXXXXXXXXXX  DEVELOPER
+# STEP 1 - DEVELOPER XXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Clone appp repo
-$ $ git clone https://github.com/xxxxx/web.git
+# Clone app repo
 $ cd web
 
-# create an issue
+# Create an issue
 $ jx create issue -t 'feature version'
 
-# create new branch for PR
+# Create new branch for PR
 $ git checkout -b feature_version
 
-# code a feature
+# Code a feature
 $ vi routes/index.js
 
-# push file and connect commit with issue #1
+# Push file and connect commit with issue #1
 $ git add routes/index.js
 $ git commit -m 'add feature ver -  fixes #1'
 $ git push origin feature_version
@@ -91,33 +131,52 @@ $ git push origin feature_version
 # Create PR with hub or manually in Github page
 $ hub pull-request
 
-# STEP 2 XXXXXXXXXXXXXXXXXXXXXXXXXX PRODUCT OWNER (or similar)
+# STEP 2 - PRODUCT OWNER (or similar) XXXXXXXXXXXXXXXXXXXXXXXXXX
 
-Automatically is created a pipeline for this PR and preview environment
+Automatically is created a pipeline for this PR and preview environment.
 
-Product Owner aprove PR or no
+Approve Pull Request ?
 
-If Yes -> new release will be automatically created
+-> If Yes - new release will be automatically created.
 
-If no  -> finish process
+-> If no  - finish process.
 
-# STEP 3 XXXXXXXXXXXXXXXXXXXXXXXXXX DEPLOY RELEASE
+# STEP 3 - DEPLOY RELEASE XXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Promote release in Product environment (rolout)
+# Promote release in Production environment
 $ jx promote --app='web' --version='0.0.10' --env='production' --batch-mode=true
 
 # Rollback version
 $ jx promote --app='web' --version='0.0.9' --env='production' --batch-mode=true
-
-
 ```
 
-##### Delete infra
+##### Delete
 
 ```bash
-# Step 1
+# Step 1 - Delete Jenkins-X and ELBs(*)
+# This command must be executed first, because the ELBs
+#  created by Kubernetes (services / ingress) make it
+#  impossible for Terraform to destroy the VPC.
 $ terraform destroy -target=null_resource.jx_installation --force
 
 # Step 2
-$ terraform destroy --force -lock=false
+$ terraform destroy --force
 ```
+
+
+
+
+
+
+.
+
+.
+
+Sources of study, thanks and merits:
+
+* https://www.terraform.io/
+* https://www.restcomm.com
+* https://jenkins-x.io/
+* All merits for the images are for the blog https://blog.octo.com (thanks  Ilya Trofimov and Nick Shulhin)
+
+
