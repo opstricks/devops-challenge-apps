@@ -16,7 +16,7 @@ Todo:
 - [x] RDS
 - [x] RDS Helm variable(API)
 - [x] Terraform Remote State S3 and Locking DynamoDB
-- [ ] new Readme.md
+- [x] new Readme.md
 
 
 
@@ -49,7 +49,7 @@ $ vi terraform.tfvars
 
 ##### Terraform - Create Infrastructure
 
-<img src="img/technogies.png" alt="Jenkins X icon" />
+<img src="img/technogies.png" alt="Jenkins X icon" width="400" height="446"/ />
 
 
 
