@@ -3,23 +3,23 @@ output "this_module" {
   value       = "jenkins-x"
 }
 
-data "template_file" "jx_environment_create_development" {
-  template = "${file("${path.module}/templates/jx-environment.tpl")}"
+# data "template_file" "jx_environment_create_development" {
+#   template = "${file("${path.module}/templates/jx-environment.tpl")}"
 
-  vars {
-    git_provider_url      = "${var.git_provider_url}"
-    git_user              = "${var.git_user}"
-    git_token             = "${var.git_token}"
-    environment           = "development"
-    environment_promotion = "auto"
-    db_connection         = "${var.db_connection}"
-  }
-}
+#   vars {
+#     git_provider_url      = "${var.git_provider_url}"
+#     git_user              = "${var.git_user}"
+#     git_token             = "${var.git_token}"
+#     environment           = "development"
+#     environment_promotion = "auto"
+#     db_connection         = "${var.db_connection}"
+#   }
+# }
 
-output "env_development" {
-  description = "Script for create jenkins-x environment."
-  value       = "${data.template_file.jx_environment_create_development.rendered}"
-}
+# output "env_development" {
+#   description = "Script for create jenkins-x environment."
+#   value       = "${data.template_file.jx_environment_create_development.rendered}"
+# }
 
 data "template_file" "jx_environment_create_staging" {
   template = "${file("${path.module}/templates/jx-environment.tpl")}"
@@ -29,7 +29,7 @@ data "template_file" "jx_environment_create_staging" {
     git_user              = "${var.git_user}"
     git_token             = "${var.git_token}"
     environment           = "staging"
-    environment_promotion = "manual"
+    environment_promotion = "auto"
     db_connection         = "${var.db_connection}"
   }
 }
