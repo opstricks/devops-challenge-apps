@@ -2,8 +2,7 @@ region = "us-east-1"
 
 project = "Stone"
 
-# Be sure to change this bucket name and region to match an S3 Bucket you have already created!
-bucket_backend = "name-of-your-s3-bucket"
+bucket_backend = "name-of-your-s3-bucket-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx123"
 
 key_backend = "terraform.tfstate"
 
