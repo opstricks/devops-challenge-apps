@@ -172,11 +172,11 @@ $ terraform destroy --force
 
 .
 
-Sources of study, thanks and merits:
+Sources of study and credits:
 
 * https://www.terraform.io/
 * https://www.restcomm.com
 * https://jenkins-x.io/
-* All merits for the images are for the blog https://blog.octo.com (thanks  Ilya Trofimov and Nick Shulhin)
+* pictures taken from the blog https://blog.octo.com (thanks  Ilya Trofimov and Nick Shulhin)
 
 
