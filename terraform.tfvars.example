@@ -20,11 +20,11 @@ git_provider_url = "https://github.com"
 
 admin_user = "admin"
 
-admin_password = "your-passowrd"
+admin_password = "your-jenkins-passowrd"
 
 git_user = "your_git_uesername"
 
-git_email = "your_git_emaili@gmail.com"
+git_email = "your_git_email@gmail.com"
 
 # https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook
 git_token = "e32c868df2380923bzxd289383032c2a55"
