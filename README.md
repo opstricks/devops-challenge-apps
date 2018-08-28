@@ -6,7 +6,7 @@ Todo:
 
 - [x] VPC
 - [x] EKS Module
-- [x] EKS Storage
+- [x] EBS Storage
 - [x] EKS Dashboard / EKS Heapster
 - [x] ECR - Container Registry
 - [x] Jenkins-x Module
@@ -14,9 +14,7 @@ Todo:
 - [x] Heml Charts    API / WEB
 - [x] Skafold config API / WEB
 - [x] RDS
-- [x] RDS Helm variable(API)
 - [x] Terraform Remote State S3 and Locking DynamoDB
-- [x] new Readme.md
 
 
 ##### Run Vagrant devops-box
