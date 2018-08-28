@@ -11,8 +11,8 @@ Todo:
 - [x] ECR - Container Registry
 - [x] Jenkins-x Module
 - [x] Jenkins-x Apps Module
-- [x] Heml Charts    API / WEB
-- [x] Skafold config API / WEB
+- [x] Helm Charts    API / WEB
+- [x] Skaffold config API / WEB
 - [x] RDS
 - [x] Terraform Remote State S3 and Locking DynamoDB
 
