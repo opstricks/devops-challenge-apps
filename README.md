@@ -21,9 +21,9 @@ Todo:
 
 ##### Run Vagrant devops-box
 ```bash
-git clone https://github.com/petersonwsantos/devops-challenge-apps.git
-cd devops-challenge-apps
-git checkout gitops
+$ git clone https://github.com/petersonwsantos/devops-challenge-apps.git
+$ cd devops-challenge-apps
+$ git checkout gitops
 ```
 
 ##### Run Vagrant devops-box
